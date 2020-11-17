@@ -6,7 +6,7 @@ by adding `jsonapi_helpers` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:jsonapi_helpers, "~> 0.1.0"}
+    {:jsonapi_helpers, "~> 0.1.0", only: :test}
   ]
 end
 ```
