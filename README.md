@@ -1,7 +1,3 @@
-# JsonapiHelpers
-
-**TODO: Add description**
-
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -12,6 +8,46 @@ def deps do
   [
     {:jsonapi_helpers, "~> 0.1.0"}
   ]
+end
+```
+
+## Usage
+
+```elixir
+defmodule JsonapiHelpersTest do
+  use ExUnit.Case
+  import JsonapiHelpers
+
+  setup do
+    [
+      params: %{
+        "data" => %{
+          "id" => "10",
+          "type" => "users",
+          "attributes" => %{
+            "email" => "jon@snow.com",
+            "name" => "Jon Snow"
+          },
+          "relationships" => %{
+            "comments" => %{"data" => [%{"id" => "10", "type" => "comments"}]},
+            "posts" => %{"data" => [%{"id" => "1", "type" => "posts"}]}
+          }
+        }
+      }
+    ]
+  end
+
+  test "params", %{params: params} do
+    assert jsonapi_id(params) == "10"
+    assert jsonapi_type(params) == "users"
+
+    assert jsonapi_attributes(params) == ~w(email name)
+    assert jsonapi_attribute_value(params, "name") == "Jon Snow"
+    assert jsonapi_attribute_value(params, "email") == "jon@snow.com"
+
+    assert jsonapi_relationships(params) == ~w(comments posts)
+    assert jsonapi_relationship_data(params, "comments") == [%{"id" => "10", "type" => "comments"}]
+  end
 end
 ```
 
