@@ -10,7 +10,8 @@ defmodule JsonapiHelpersTest do
           "type" => "users",
           "attributes" => %{
             "email" => "jon@snow.com",
-            "name" => "Jon Snow"
+            "name" => "Jon Snow",
+            "date" => ~N[2000-01-01 00:00:00]
           },
           "relationships" => %{
             "comments" => %{"data" => [%{"id" => "10", "type" => "comments"}]},
@@ -30,12 +31,13 @@ defmodule JsonapiHelpersTest do
   end
 
   test "jsonapi_attributes", %{params: params} do
-    assert jsonapi_attributes(params) == ~w(email name)
+    assert jsonapi_attributes(params) == ~w(date email name)
   end
 
   test "jsonapi_attribute_value", %{params: params} do
     assert jsonapi_attribute_value(params, "name") == "Jon Snow"
     assert jsonapi_attribute_value(params, "email") == "jon@snow.com"
+    assert jsonapi_attribute_value(params, "date") == ~N[2000-01-01 00:00:00]
   end
 
   test "jsonapi_relationships", %{params: params} do
